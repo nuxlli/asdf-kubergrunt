@@ -1,0 +1,19 @@
+name: Test plugin
+on: [pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+
+      - uses: actions/checkout@master
+        with:
+          repository: "asdf-vm/asdf"
+          ref: v0.7.4
+
+      - name: "Install plugin in asdf"
+        run: |
+          source /tmp/.asdf/asdf.sh
+          asdf plugin-add kubergrunt ./
+          asdf list-all kubergrunt
+          asdf plugin-test kubergrunt ./ 'kubergrunt --version'
